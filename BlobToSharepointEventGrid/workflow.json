@@ -1,0 +1,189 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Get_blob_content_using_path": {
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "referenceName": "azureblob"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/GetFileContentByPath",
+                    "queries": {
+                        "path": "@{split(triggerBody()?['subject'], '/')?[4]}/@{split(triggerBody()?['subject'], '/')?[6]}",
+                        "queryParametersSingleEncoded": true,
+                        "inferContentType": true
+                    }
+                },
+                "runAfter": {}
+            },
+            "List_destination_folder_for_Existing_files": {
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "referenceName": "sharepointonline"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://microsofteur.sharepoint.com/teams/TescoDataTeam'))}/folders/@{encodeURIComponent('%252fShared%2bDocuments%252fGeneral%252fDataFolderTesting')}"
+                },
+                "runAfter": {
+                    "Get_blob_content_using_path": [
+                        "Succeeded"
+                    ]
+                },
+                "metadata": {
+                    "%252fShared%2bDocuments%252fGeneral%252fDataFolderTesting": "/Shared Documents/General/DataFolderTesting"
+                }
+            },
+            "Filter_The_Destination_to_see_if_File_already_exists": {
+                "type": "Query",
+                "inputs": {
+                    "from": "@body('List_destination_folder_for_Existing_files')",
+                    "where": "@equals(item()?['Name'], split(triggerBody()?['subject'], '/')?[6])"
+                },
+                "runAfter": {
+                    "List_destination_folder_for_Existing_files": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Select_Top_Matched_File_in_Destination": {
+                "type": "Compose",
+                "inputs": "@first(body('Filter_The_Destination_to_see_if_File_already_exists'))",
+                "runAfter": {
+                    "Filter_The_Destination_to_see_if_File_already_exists": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Condition": {
+                "type": "If",
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@empty(body('Filter_The_Destination_to_see_if_File_already_exists'))",
+                                false
+                            ]
+                        }
+                    ]
+                },
+                "actions": {
+                    "Update_file": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "referenceName": "sharepointonline"
+                                }
+                            },
+                            "method": "put",
+                            "body": "@body('Get_blob_content_using_path')",
+                            "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://microsofteur.sharepoint.com/teams/TescoDataTeam'))}/files/@{encodeURIComponent(encodeURIComponent(outputs('Select_Top_Matched_File_in_Destination')['Path']))}"
+                        },
+                        "runAfter": {},
+                        "metadata": {
+                            "%252fShared%2bDocuments%252fGeneral%252fDataFolderTesting%252fOrder%2bAPI%2bSwagger.json": "/Shared Documents/General/DataFolderTesting/Order API Swagger.json"
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Select_Top_Matched_File_in_Destination": [
+                        "Succeeded"
+                    ]
+                },
+                "else": {
+                    "actions": {
+                        "Create_file": {
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "referenceName": "sharepointonline"
+                                    }
+                                },
+                                "method": "post",
+                                "body": "@body('Get_blob_content_using_path')",
+                                "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://microsofteur.sharepoint.com/teams/TescoDataTeam'))}/files",
+                                "queries": {
+                                    "folderPath": "/Shared Documents/General/DataFolderTesting",
+                                    "name": "@{split(triggerBody()?['subject'],'/')?[6]}",
+                                    "queryParametersSingleEncoded": true
+                                }
+                            },
+                            "runAfter": {},
+                            "runtimeConfiguration": {
+                                "contentTransfer": {
+                                    "transferMode": "Chunked"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Send_an_email_(V2)": {
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "referenceName": "office365"
+                        }
+                    },
+                    "method": "post",
+                    "body": {
+                        "To": "Prakash.beegala@microsoft.com",
+                        "Subject": "Commodities File has arrived",
+                        "Body": "<p>Commodities File has arrived</p>"
+                    },
+                    "path": "/v2/Mail"
+                },
+                "runAfter": {
+                    "Condition": [
+                        "Succeeded"
+                    ]
+                }
+            }
+        },
+        "triggers": {
+            "When_a_ML_File_lands_in_Storage": {
+                "type": "ApiConnectionWebhook",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "referenceName": "azureeventgrid"
+                        }
+                    },
+                    "body": {
+                        "properties": {
+                            "topic": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Storage/storageAccounts/pbstorageaccountpublic",
+                            "destination": {
+                                "endpointType": "webhook",
+                                "properties": {
+                                    "endpointUrl": "@{listCallbackUrl()}"
+                                }
+                            },
+                            "filter": {
+                                "includedEventTypes": [
+                                    "Microsoft.Storage.BlobCreated"
+                                ]
+                            }
+                        }
+                    },
+                    "path": "/subscriptions/@{encodeURIComponent('52eb3891-6f09-4350-8707-4dc848cba302')}/providers/@{encodeURIComponent('Microsoft.Storage.StorageAccounts')}/resource/eventSubscriptions",
+                    "queries": {
+                        "x-ms-api-version": "2017-09-15-preview"
+                    }
+                },
+                "splitOn": "@triggerBody()"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}

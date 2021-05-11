@@ -1,0 +1,60 @@
+{
+  "managedApiConnections": {
+    "azureeventgrid": {
+      "api": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/azureeventgrid"
+      },
+      "connection": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/azureeventgrid"
+      },
+      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/azureeventgrid/a57c10ac9d7342ab85d49e110111e26d/",
+      "authentication": {
+        "type": "Raw",
+        "scheme": "Key",
+        "parameter": "@appsetting('azureeventgrid-connectionKey')"
+      }
+    },
+    "azureblob": {
+      "api": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob"
+      },
+      "connection": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/azureblob"
+      },
+      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/azureblob/7aa0e22bac4849e8ae0cef11331aeb47/",
+      "authentication": {
+        "type": "Raw",
+        "scheme": "Key",
+        "parameter": "@appsetting('azureblob-connectionKey')"
+      }
+    },
+    "sharepointonline": {
+      "api": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/sharepointonline"
+      },
+      "connection": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/sharepointonline"
+      },
+      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/sharepointonline/2aac84b3edd74daea2a4aae8542bcbda/",
+      "authentication": {
+        "type": "Raw",
+        "scheme": "Key",
+        "parameter": "@appsetting('sharepointonline-connectionKey')"
+      }
+    },
+    "office365": {
+      "api": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+      },
+      "connection": {
+        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/office365"
+      },
+      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/office365/d96ae0507b4a49b3ad0e55e9e9bb003b/",
+      "authentication": {
+        "type": "Raw",
+        "scheme": "Key",
+        "parameter": "@appsetting('office365-connectionKey')"
+      }
+    }
+  }
+}

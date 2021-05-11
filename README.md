@@ -1,5 +1,6 @@
 # 1. LogicAppv2-BlobToSharepoint
 
+![Logic App](/images/LogicAppScreenShot.png)
 This is a single tenant Logic App -  which gets triggered on the back of a file landing in a Blob (using Azure Event grid trigger). One of the common scenarios to trigger a logic app.
 Once it receives the File from blob, the logic app attempts to create this file in Sharepoint. It also ensures that the file is updated, if Sharepoint has a file with the same name.
 
@@ -46,4 +47,3 @@ This is how the event message which triggers the logic app looks like.
   "eventTime": "2021-05-11T21:53:36.3087505Z"
 }
 ```
-![Logic App](/images/LogicAppScreenShot.png)

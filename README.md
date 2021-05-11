@@ -46,3 +46,4 @@ This is how the event message which triggers the logic app looks like.
   "eventTime": "2021-05-11T21:53:36.3087505Z"
 }
 ```
+![Logic App](/images/LogicAppScreenShot.png)

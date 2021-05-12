@@ -48,3 +48,4 @@ This is how the event message which triggers the logic app looks like.
   "eventTime": "2021-05-11T21:53:36.3087505Z"
 }
 ```
+Reference - https://medium.com/wortell/check-whether-a-file-exists-using-the-file-storage-connector-in-logic-apps-b22aed9d267a

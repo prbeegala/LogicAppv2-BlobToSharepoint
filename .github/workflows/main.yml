@@ -1,50 +1,69 @@
-# This is a basic workflow to help you get started with Actions
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Deploy BlobToSharepoint to Azure
+name: (classic) Build and Deploy Logic App. 
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 env:
-  AZURE_FUNCTIONAPP_NAME: BlobToSharepoint  # set this to your application's name
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'    # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '3.1.301'              # set this to the dotnet version to use
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  AZURE_LOGICAPP_PACKAGE_PATH: '.'
+  DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
+  RG_LA: 'rg-logicapp-cicd'
+  RG_CON: 'delirg2'
+  LA_NAME: 'blobtosharepointaa'
+
+on:
+  - workflow_dispatch 
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
+   logic_app_build: 
+    runs-on: ubuntu-latest
+    steps: 
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: 'Check out Github action'
-        uses: actions/checkout@main
+    - name: Checkout
+      uses: actions/checkout@v1
+    
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
 
-      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Generate Connections
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_CON }}'
+        azPSVersion: latest
 
-      - name: 'Resolve Project Dependencies Using Dotnet'
-        shell: pwsh
-        run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output ./output
-          popd
+    - name: Get publish Profile
+      id: fncapp
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $profile = Get-AzWebAppPublishingProfile `
+              -ResourceGroupName ${{ env.RG_LA }} `
+              -Name ${{ env.LA_NAME }}
+          $profile = $profile.Replace("`r", "").Replace("`n", "")
+          Write-Output "::set-output name=profile::$profile"
+        azPSVersion: latest
 
-      - name: 'Deploy Workflow Action'
-        uses: Azure/functions-action@v1
-        id: fa
-        with:
-          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+    - name: Create project folder
+      run: |
+        mkdir output
+        cp 'host.json' 'output/'
+        cp 'proxies.json' 'output/'
+        cp 'connections.json' 'output/'
+        cp -r 'Stateless1' 'output/'
+        cp 'parameters.prod.json' 'output/parameters.json'
+    - name: Easy Zip Files
+      uses: vimtor/action-zip@v1
+      with:
+        dest: '${{ github.run_id }}.zip'
+        files: output/
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{env.RG_LA}}
+        package: '${{ github.run_id }}.zip'
+        publish-profile: ${{steps.fncapp.outputs.profile}}

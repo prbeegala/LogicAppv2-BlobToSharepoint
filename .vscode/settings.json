@@ -1,7 +1,7 @@
 {
-    "azureLogicAppsV2.deploySubpath": "bin/Release/netcoreapp3.1/publish",
-    "azureLogicAppsV2.projectLanguage": "C#",
-    "azureLogicAppsV2.projectRuntime": "~3",
+    "azureLogicAppsStandard.deploySubpath": "bin/Release/netcoreapp3.1/publish",
+    "azureLogicAppsStandard.projectLanguage": "C#",
+    "azureLogicAppsStandard.projectRuntime": "~3",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureLogicAppsV2.preDeployTask": "publish"
+    "azureLogicAppsStandard.preDeployTask": "publish"
 }

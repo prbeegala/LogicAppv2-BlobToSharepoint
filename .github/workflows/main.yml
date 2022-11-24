@@ -8,7 +8,7 @@ env:
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
   RG_LA: 'rg-pb'
   RG_CON: 'rg-logicapp-cicd'
-  LA_NAME: 'blobtosharepointvscode'
+  LA_NAME: 'lablobtosharepointvscode'
 
 on:
   - workflow_dispatch 

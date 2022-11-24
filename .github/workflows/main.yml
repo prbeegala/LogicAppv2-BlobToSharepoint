@@ -6,9 +6,9 @@ name: (classic) Build and Deploy Logic App.
 env:
   AZURE_LOGICAPP_PACKAGE_PATH: '.'
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
-  RG_LA: 'rg-logicapp-cicd'
+  RG_LA: 'rg-pb'
   RG_CON: 'rg-logicapp-cicd'
-  LA_NAME: 'blobtosharepointaa'
+  LA_NAME: 'blobtosharepointvscode'
 
 on:
   - workflow_dispatch 

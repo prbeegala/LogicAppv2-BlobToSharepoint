@@ -2,5 +2,46 @@
     "functionUri": {
         "type": "string",
         "value": "http://localhost:7071/api/HttpTrigger1"
+    },
+    "azureeventgrid-RuntimeUrl": {
+        "type": "String",
+        "value": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/azureeventgrid/a57c10ac9d7342ab85d49e110111e26d/"
+    },
+    "azureeventgrid-Auth": {
+        "type": "Object",
+        "value": {
+            "type": "ManagedServiceIdentity"
+        }
+    },
+    "azureblob-RuntimeUrl": {
+        "type": "String",
+        "value": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/azureblob/7aa0e22bac4849e8ae0cef11331aeb47/"
+    },
+    "azureblob-Auth": {
+        "type": "Object",
+        "value": {
+            "type": "ManagedServiceIdentity"
+        }
+    },
+    "sharepointonline-RuntimeUrl": {
+        "type": "String",
+        "value": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/sharepointonline/2aac84b3edd74daea2a4aae8542bcbda/"
+    },
+    "sharepointonline-Auth": {
+        "type": "Object",
+        "value": {
+            "type": "ManagedServiceIdentity"
+        }
+    },
+    "office365-RuntimeUrl": {
+        "type": "String",
+        "value": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/office365/d96ae0507b4a49b3ad0e55e9e9bb003b/"
+    },
+    "office365-Auth": {
+        "type": "Object",
+        "value": {            
+            "type": "ManagedServiceIdentity"
+        }
     }
+    
 }

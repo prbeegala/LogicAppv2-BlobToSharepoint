@@ -2,59 +2,43 @@
   "managedApiConnections": {
     "azureeventgrid": {
       "api": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/azureeventgrid"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/providers/Microsoft.Web/locations/@{appsetting('WORKFLOWS_LOCATION_NAME')}/managedApis/azureeventgrid"
       },
       "connection": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/azureeventgrid"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/resourceGroups/@{appsetting('WORKFLOWS_RESOURCE_GROUP_NAME')}/providers/Microsoft.Web/connections/azureeventgrid"
       },
-      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/azureeventgrid/a57c10ac9d7342ab85d49e110111e26d/",
-      "authentication": {
-        "type": "Raw",
-        "scheme": "Key",
-        "parameter": "@appsetting('azureeventgrid-connectionKey')"
-      }
+      "connectionRuntimeUrl": "@parameters('azureeventgrid-RuntimeUrl')",
+      "authentication": "@parameters('azureeventgrid-auth')"
     },
     "azureblob": {
       "api": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/providers/Microsoft.Web/locations/@{appsetting('WORKFLOWS_LOCATION_NAME')}/managedApis/azureblob"
       },
       "connection": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/azureblob"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/resourceGroups/@{appsetting('WORKFLOWS_RESOURCE_GROUP_NAME')}/providers/Microsoft.Web/connections/azureblob"
       },
-      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/azureblob/7aa0e22bac4849e8ae0cef11331aeb47/",
-      "authentication": {
-        "type": "Raw",
-        "scheme": "Key",
-        "parameter": "@appsetting('azureblob-connectionKey')"
-      }
+      "connectionRuntimeUrl": "@parameters('azureblob-RuntimeUrl')",
+      "authentication": "@parameters('azureblob-auth')"
     },
     "sharepointonline": {
       "api": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/sharepointonline"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/providers/Microsoft.Web/locations/@{appsetting('WORKFLOWS_LOCATION_NAME')}/managedApis/sharepointonline"
       },
       "connection": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/sharepointonline"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/resourceGroups/@{appsetting('WORKFLOWS_RESOURCE_GROUP_NAME')}/providers/Microsoft.Web/connections/sharepointonline"
       },
-      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/sharepointonline/2aac84b3edd74daea2a4aae8542bcbda/",
-      "authentication": {
-        "type": "Raw",
-        "scheme": "Key",
-        "parameter": "@appsetting('sharepointonline-connectionKey')"
-      }
+      "connectionRuntimeUrl": "@parameters('sharepointonline-RuntimeUrl')",
+      "authentication": "@parameters('sharepointonline-auth')"
     },
     "office365": {
       "api": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/providers/Microsoft.Web/locations/@{appsetting('WORKFLOWS_LOCATION_NAME')}/managedApis/office365"
       },
       "connection": {
-        "id": "/subscriptions/52eb3891-6f09-4350-8707-4dc848cba302/resourceGroups/rg-pb/providers/Microsoft.Web/connections/office365"
+        "id": "/subscriptions/@{appsetting('WORKFLOWS_SUBSCRIPTION_ID')}/resourceGroups/@{appsetting('WORKFLOWS_RESOURCE_GROUP_NAME')}/providers/Microsoft.Web/connections/office365"
       },
-      "connectionRuntimeUrl": "https://47e705ee2f46a8cd.12.common.logic-westeurope.azure-apihub.net/apim/office365/d96ae0507b4a49b3ad0e55e9e9bb003b/",
-      "authentication": {
-        "type": "Raw",
-        "scheme": "Key",
-        "parameter": "@appsetting('office365-connectionKey')"
-      }
+      "connectionRuntimeUrl": "@parameters('office365-RuntimeUrl')",
+      "authentication": "@parameters('office365-auth')"
     }
   }
 }

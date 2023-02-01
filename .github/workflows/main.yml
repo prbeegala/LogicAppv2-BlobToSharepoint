@@ -7,8 +7,8 @@ env:
   AZURE_LOGICAPP_PACKAGE_PATH: '.'
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use#change the Azure credentials in GitHub
   RG_LA: 'rg-pb'
-  RG_CON: 'rg-logicapp-cicd'
-  LA_NAME: 'lablobtosharepointvscode'
+  RG_CON: 'rg-pb'
+  LA_NAME: 'lablobtosharepointvscode2'
 
 on:
   - workflow_dispatch 

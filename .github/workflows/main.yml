@@ -8,7 +8,7 @@ env:
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use#change the Azure credentials in GitHub
   RG_LA: 'rg-pb'
   RG_CON: 'rg-pb'
-  LA_NAME: 'lablobtosharepointvscode2'
+  LA_NAME: 'lablobtosharepointvscode'
 
 on:
   - workflow_dispatch 
